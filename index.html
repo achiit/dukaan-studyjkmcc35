@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#1E3A8A">
+<title>JMKCC Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+window.OneSignalDeferred = window.OneSignalDeferred || [];
+OneSignalDeferred.push(async function(OneSignal) { await OneSignal.init({ appId: "a9817941-8e20-4c38-8011-6c27c649ecfb", autoPrompt: true }); });
+</script>
+<style>
+:root{--pri:#1E3A8A;--pri-l:#DBEAFE;--pri-g:linear-gradient(135deg,#1E3A8A 0%,#3B82F6 100%);--grn:#059669;--grn-l:#D1FAE5;--grn-g:linear-gradient(135deg,#059669 0%,#10B981 100%);--gold:linear-gradient(135deg,#F59E0B 0%,#FBBF24 100%);--bg:#F0F4F8;--card:#FFF;--txt:#1E293B;--mut:#64748B;--brd:#E2E8F0;--fh:'Poppins',sans-serif;--fb:'Roboto',sans-serif;}
+body.dark-mode{--pri:#60A5FA;--pri-l:#1E3A8A;--bg:#0F172A;--card:#1E293B;--txt:#F8FAFC;--mut:#94A3B8;--brd:#334155;}
+body.dark-mode .page-header,body.dark-mode .inner-header,body.dark-mode .sidebar-header{background:#1E293B;color:#F8FAFC;}
+body.dark-mode .bottom-nav{background:#1E293B;border-color:#334155;}
+body.dark-mode .premium-card,body.dark-mode .subject-card,body.dark-mode .empty-state,body.dark-mode .profile-header,body.dark-mode .stat-box,body.dark-mode .profile-details-list,body.dark-mode .leaderboard-card,body.dark-mode .modal-card,body.dark-mode .input-box{background:var(--card);border-color:var(--brd);}
+body.dark-mode .option-item,body.dark-mode .question-text,body.dark-mode .test-footer{background:var(--card);border-color:var(--brd);color:var(--txt);}
+body.dark-mode .test-body{background:var(--bg);}
+body.dark-mode .notif-card,body.dark-mode .chat-box,body.dark-mode .music-box{background:var(--card);}
+body.dark-mode #block-screen{background:var(--bg);}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none}
+body{background:var(--bg);color:var(--txt);overflow-x:hidden;height:100vh;font-family:var(--fb);position:relative;transition:background .3s,color .3s;}
+.hidden{display:none!important}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:5px}
+#block-screen{position:fixed;inset:0;background:var(--bg);z-index:99998;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:30px 20px;text-align:center;}
+#block-screen img{max-width:80%;max-height:40vh;border-radius:20px;margin-bottom:24px;object-fit:contain;box-shadow:0 10px 30px rgba(0,0,0,.15);}
+#block-screen .no-img{width:120px;height:120px;border-radius:50%;background:var(--pri-l);display:flex;align-items:center;justify-content:center;font-size:60px;margin-bottom:24px;}
+#block-screen h1{font-family:var(--fh);font-weight:800;font-size:26px;color:var(--pri);margin-bottom:14px;line-height:1.3;}
+#block-screen p{font-size:15px;color:var(--mut);font-weight:500;line-height:1.6;max-width:400px;margin-bottom:30px;}
+#block-screen .block-btn{background:var(--pri-g);color:#fff;border:none;padding:14px 32px;border-radius:14px;font-family:var(--fh);font-weight:800;font-size:15px;cursor:pointer;}
+#block-screen.full-maintenance .block-btn{display:none;}
+#loading-screen{position:fixed;inset:0;background:var(--card);z-index:99999;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.spin{width:45px;height:45px;border:4px solid var(--pri-l);border-top:4px solid var(--pri);border-radius:50%;animation:sp 1s linear infinite}
+@keyframes sp{100%{transform:rotate(360deg)}}
+#chat-modal{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:10000;display:none;justify-content:center;align-items:center;padding:20px;backdrop-filter:blur(4px)}
+.chat-box{background:var(--card);border-radius:24px;padding:30px 24px;width:100%;max-width:380px;text-align:center;position:relative;animation:popIn .3s}
+@keyframes popIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.chat-close-btn{position:absolute;top:15px;right:20px;background:none;border:none;font-size:28px;color:var(--mut);cursor:pointer}
+.chat-icon-circle{width:80px;height:80px;background:#25D366;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:15px;box-shadow:0 6px 15px rgba(37,211,102,.3)}
+.chat-icon-circle svg{width:45px;height:45px;fill:#fff}
+.chat-box h3{font-family:var(--fh);font-weight:800;font-size:22px;margin-bottom:10px}
+.chat-box p{font-size:15px;color:var(--mut);margin-bottom:20px;line-height:1.5}
+.btn-chat-action{background:#25D366;color:#fff;border:none;padding:16px;border-radius:16px;font-size:16px;font-family:var(--fh);font-weight:700;width:100%;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:10px;box-shadow:0 4px 12px rgba(37,211,102,.4)}
+.floating-chat{position:fixed;bottom:90px;right:20px;width:55px;height:55px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(37,211,102,.4);z-index:99;cursor:pointer;}
+.floating-chat svg{width:30px;height:30px;fill:#fff;}
+.floating-music{position:fixed;bottom:90px;left:20px;width:55px;height:55px;background:var(--pri-g);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(30,58,138,.4);z-index:99;cursor:pointer;font-size:24px;color:#fff;}
+#music-modal{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:10000;display:none;justify-content:center;align-items:center;padding:20px;backdrop-filter:blur(4px)}
+.music-box{background:var(--card);border-radius:24px;padding:30px 24px;width:100%;max-width:340px;text-align:center;position:relative;animation:popIn .3s}
+.music-cover{width:150px;height:150px;border-radius:50%;background:var(--pri-l);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:60px;border:6px solid var(--card);box-shadow:0 10px 25px rgba(0,0,0,.15);animation:spin 10s linear infinite;animation-play-state:paused;}
+.music-cover.playing{animation-play-state:running;}
+.music-title{font-family:var(--fh);font-weight:800;font-size:20px;margin-bottom:5px;}
+.music-artist{font-size:14px;color:var(--mut);margin-bottom:20px;}
+.music-controls{display:flex;justify-content:center;align-items:center;gap:20px;}
+.music-btn{background:var(--pri-g);color:#fff;width:60px;height:60px;border-radius:50%;border:none;font-size:24px;cursor:pointer;display:flex;justify-content:center;align-items:center;box-shadow:0 4px 15px rgba(30,58,138,.4);}
+.music-btn-sm{background:transparent;border:none;font-size:24px;cursor:pointer;color:var(--txt);}
+#auth-screen{position:fixed;inset:0;background:var(--card);z-index:9999;display:flex;flex-direction:column;padding:24px;overflow-y:auto}
+.logo-area{text-align:center;margin-top:20px;margin-bottom:20px}
+.logo-circle{width:110px;height:110px;border-radius:50%;background:#fff;border:4px solid var(--grn);display:inline-flex;align-items:center;justify-content:center;box-shadow:0 10px 25px rgba(5,150,105,.2);overflow:hidden}
+.logo-circle img{width:100%;height:100%;object-fit:cover;transform:scale(1.05)}
+.welcome-title{text-align:center;font-size:26px;font-family:var(--fh);font-weight:800;color:var(--pri);margin-bottom:6px}
+.welcome-desc{text-align:center;font-size:14px;color:var(--mut);margin-bottom:25px;line-height:1.5;font-weight:500}
+.input-group{margin-bottom:16px}
+.input-group label{display:block;font-size:13px;font-family:var(--fh);font-weight:700;color:var(--pri);margin-bottom:8px;text-transform:uppercase}
+.input-box{display:flex;align-items:center;background:var(--card);border:2px solid var(--brd);border-radius:16px;padding:14px 16px;transition:.3s}
+.input-box:focus-within{border-color:var(--pri);box-shadow:0 0 0 3px var(--pri-l)}
+.input-box input{border:none;outline:none;flex:1;font-size:16px;margin-left:10px;background:transparent;color:var(--txt);font-family:var(--fh);font-weight:600;user-select:text}
+.premium-input{width:100%;padding:16px 18px;border:2px solid var(--brd);border-radius:14px;font-size:16px;font-family:var(--fh);font-weight:700;margin-bottom:14px;outline:none;background:var(--bg);color:var(--txt);transition:.3s;user-select:text}
+.premium-input:focus{border-color:var(--pri);background:var(--card);box-shadow:0 0 0 4px var(--pri-l)}
+.btn-main{background:var(--grn-g);color:#fff;border:none;padding:16px;border-radius:16px;font-size:17px;font-family:var(--fh);font-weight:800;width:100%;margin-top:10px;cursor:pointer;box-shadow:0 4px 12px rgba(5,150,105,.4)}
+.btn-google-top{background:var(--card);color:var(--pri);border:2px solid var(--pri);padding:14px;border-radius:16px;font-size:16px;font-family:var(--fh);font-weight:800;width:100%;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:12px;margin-top:6px}
+.btn-google-top img{width:24px;height:24px;border-radius:50%;object-fit:cover}
+.btn-google{background:var(--card);color:var(--txt);border:2px solid var(--brd);padding:14px;border-radius:16px;font-size:15px;font-family:var(--fh);font-weight:700;width:100%;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:12px}
+.btn-google img{width:24px;height:24px;border-radius:50%;object-fit:cover}
+.msg{font-size:13px;text-align:center;margin-top:8px;font-weight:700;color:#DC2626;min-height:20px;font-family:var(--fh)}
+.auth-tab-btn{background:transparent;color:var(--pri);border:none;font-family:var(--fh);font-weight:800;font-size:14px;text-decoration:underline;cursor:pointer;margin-top:10px;padding:8px;}
+#main-app{padding-bottom:90px;height:100vh;overflow-y:auto}
+.page-header{background:var(--pri-g);padding:16px;display:flex;align-items:center;justify-content:space-between;color:#fff;position:sticky;top:0;z-index:100;border-radius:0 0 24px 24px;box-shadow:0 4px 15px rgba(30,58,138,.3)}
+.header-left{display:flex;align-items:center;gap:16px}
+.header-left svg{width:28px;height:28px;stroke:#fff;stroke-width:2.5;fill:none;cursor:pointer}
+.class-selector{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:10px;font-size:15px;font-family:var(--fh);font-weight:700;outline:none;appearance:none;cursor:pointer;padding:6px 12px}
+.class-selector option{color:#333}
+.greeting-area{padding:20px 16px 10px;font-size:20px;font-family:var(--fh);font-weight:600;display:flex;justify-content:space-between;align-items:center;}
+.greeting-area span{font-weight:800;color:var(--pri)}
+.streak-badge{background:var(--gold);color:#fff;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:800;font-family:var(--fh);display:flex;align-items:center;gap:4px;}
+.live-banner{margin:0 16px 15px;background:linear-gradient(90deg,#EF4444,#DC2626);border-radius:15px;padding:15px;display:flex;justify-content:space-between;align-items:center;color:#fff;box-shadow:0 4px 10px rgba(220,38,38,.3);}
+.banner-wrapper{position:relative;padding:10px 0 20px}
+.banner-slider{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 16px;scrollbar-width:none}
+.banner-slider::-webkit-scrollbar{display:none}
+.banner-slide{flex:0 0 100%;scroll-snap-align:center;border-radius:20px;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,.15);position:relative;aspect-ratio:16/9;background:#E2E8F0;margin-right:16px}
+.banner-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.banner-dots{display:flex;justify-content:center;gap:6px;margin-top:12px}
+.banner-dots span{width:8px;height:8px;border-radius:50%;background:#CBD5E1;transition:.3s}
+.banner-dots span.active{background:var(--pri);width:20px;border-radius:4px}
+.grid-3x3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:0 16px 20px}
+.grid-item{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:16px 8px;display:flex;flex-direction:column;align-items:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.03);transition:.2s;text-align:center}
+.grid-item:active{transform:scale(.95);background:var(--pri-l)}
+.grid-icon{width:50px;height:50px;margin-bottom:10px;display:flex;justify-content:center;align-items:center}
+.grid-item span{font-size:12px;font-family:var(--fh);font-weight:700;line-height:1.3}
+.section-title{padding:0 16px 10px;font-size:18px;font-family:var(--fh);font-weight:800;color:var(--pri);display:flex;justify-content:space-between;align-items:center;}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;background:var(--card);border-radius:20px;margin:0 16px 20px;border:1px dashed #CBD5E1}
+.empty-state h3{font-size:18px;font-family:var(--fh);font-weight:800;margin-bottom:6px}
+.empty-state p{font-size:13px;color:var(--mut);font-weight:500}
+.premium-card{background:var(--card);border-radius:18px;padding:16px;margin:0 16px 16px;box-shadow:0 4px 15px rgba(0,0,0,.05);border:1px solid var(--brd);display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden;transition:.2s;}
+.premium-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--pri-g);}
+.premium-card.gold::before{background:var(--gold);}
+.card-top{display:flex;gap:14px;align-items:center;}
+.card-img{width:90px;height:90px;border-radius:12px;object-fit:cover;background:var(--pri-l);flex-shrink:0;border:1px solid var(--brd);}
+.card-info{flex:1;}
+.card-title{font-size:16px;font-family:var(--fh);font-weight:800;color:var(--txt);line-height:1.3;margin-bottom:4px;}
+.card-sub{font-size:12px;color:var(--mut);font-weight:500;display:flex;align-items:center;gap:6px;}
+.card-tags{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
+.card-tag{font-size:10px;font-family:var(--fh);font-weight:700;background:var(--pri-l);color:var(--pri);padding:4px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:4px;}
+.card-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding-top:12px;border-top:1px dashed var(--brd);}
+.price-new{font-size:18px;font-family:var(--fh);font-weight:900;color:var(--grn);}
+.price-free{font-size:15px;font-family:var(--fh);font-weight:900;color:#10b981;background:#ecfdf5;padding:4px 10px;border-radius:8px;}
+.btn-buy-now{background:var(--pri-g);color:#fff;border:none;padding:8px 18px;border-radius:10px;font-family:var(--fh);font-weight:700;font-size:13px;cursor:pointer;transition:.2s;}
+.leaderboard-card{background:var(--card);border-radius:16px;padding:12px 16px;margin:0 16px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 10px rgba(0,0,0,.05);border:1px solid var(--brd);}
+.rank-badge{width:30px;height:30px;border-radius:50%;background:var(--pri-l);color:var(--pri);display:flex;align-items:center;justify-content:center;font-weight:800;font-family:var(--fh);font-size:14px;}
+.rank-badge.top-1{background:#FEF08A;color:#A16207;}.rank-badge.top-2{background:#E2E8F0;color:#475569;}.rank-badge.top-3{background:#FFEDD5;color:#C2410C;}
+.leader-info{flex:1;}.leader-name{font-size:14px;font-weight:800;font-family:var(--fh);}.leader-score{font-size:12px;color:var(--mut);font-weight:600;}
+.leader-percent{font-size:16px;font-weight:900;color:var(--grn);font-family:var(--fh);}
+#drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;opacity:0;transition:.3s}
+#drawer-overlay.active{display:block;opacity:1}
+#sidebar{position:fixed;top:0;left:-320px;width:300px;height:100vh;background:var(--card);z-index:1001;transition:.3s cubic-bezier(.4,0,.2,1);box-shadow:4px 0 25px rgba(0,0,0,.2);display:flex;flex-direction:column;overflow-y:auto}
+#sidebar.open{left:0}
+.sidebar-header{padding:30px 20px 20px;background:var(--pri-g);border-bottom:2px solid var(--grn);color:#fff}
+.sidebar-logo{width:80px;height:80px;border-radius:50%;margin-bottom:12px;border:3px solid var(--grn);overflow:hidden;background:#fff}
+.sidebar-logo img{width:100%;height:100%;object-fit:cover}
+.sidebar-name{font-size:24px;font-family:var(--fh);font-weight:800;margin-bottom:5px}
+.sidebar-email{font-size:13px;color:rgba(255,255,255,.8);font-weight:500;word-break:break-all}
+.sidebar-menu{flex:1;padding:15px 0}
+.menu-item{display:flex;align-items:center;padding:16px 20px;color:var(--txt);font-size:16px;font-family:var(--fh);font-weight:700;cursor:pointer;gap:16px;transition:.2s}
+.menu-item.active{background:var(--pri-l);color:var(--pri);border-left:5px solid var(--pri)}
+.menu-item svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2.5}
+.btn-logout-menu{display:flex;align-items:center;padding:16px 20px;color:#DC2626;font-size:16px;font-family:var(--fh);font-weight:800;cursor:pointer;gap:16px;margin-top:10px}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:400px;background:var(--card);display:flex;justify-content:space-around;padding:10px 0 15px;box-shadow:0 -4px 20px rgba(0,0,0,.08);z-index:100;border-top:1px solid var(--brd);border-radius:20px 20px 0 0;}
+.nav-btn{display:flex;flex-direction:column;align-items:center;color:var(--mut);cursor:pointer;transition:.3s;padding:0 10px;gap:4px;}
+.nav-btn svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2.2}
+.nav-btn span{font-size:10px;font-family:var(--fh);font-weight:700;}
+.nav-btn.active{color:var(--pri);}
+.nav-btn.active svg{fill:var(--pri-l);stroke:var(--pri);}
+.page{display:none;min-height:100vh;background:var(--bg);padding-bottom:20px}
+.page.active{display:block}
+.inner-header{background:var(--pri-g);padding:16px;display:flex;align-items:center;justify-content:space-between;color:#fff;position:sticky;top:0;z-index:100;border-radius:0 0 24px 24px;box-shadow:0 4px 15px rgba(30,58,138,.3)}
+.inner-header h2{font-size:20px;font-family:var(--fh);font-weight:800}
+.list-container{padding:16px}
+.notif-card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:12px;border-left:4px solid var(--pri);box-shadow:0 2px 10px rgba(0,0,0,.05);}
+.notif-title{font-family:var(--fh);font-weight:800;font-size:15px;margin-bottom:4px;color:var(--pri);}
+.notif-msg{font-size:13px;color:var(--mut);line-height:1.5;margin-bottom:8px;font-weight:500;}
+.notif-time{font-size:11px;color:#94A3B8;font-weight:700;}
+.notif-img{width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-bottom:10px;}
+.profile-header{display:flex;flex-direction:column;align-items:center;padding:30px 20px;background:var(--card);border-radius:20px;margin:16px;box-shadow:0 4px 15px rgba(0,0,0,.04)}
+.profile-avatar{width:100px;height:100px;border-radius:50%;background:var(--pri-g);color:#fff;display:flex;align-items:center;justify-content:center;font-size:40px;font-family:var(--fh);font-weight:800;margin-bottom:16px;overflow:hidden;border:4px solid var(--grn-l);position:relative;}
+.profile-avatar img{width:100%;height:100%;object-fit:cover}
+.profile-name{font-size:24px;font-family:var(--fh);font-weight:800}
+.stats-container{display:flex;gap:10px;margin:0 16px 16px;}
+.stat-box{flex:1;background:var(--card);border-radius:16px;padding:16px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.04);border:1px solid var(--brd);}
+.stat-box h4{font-size:24px;font-weight:900;color:var(--pri);font-family:var(--fh);margin-bottom:4px;}
+.stat-box p{font-size:12px;color:var(--mut);font-weight:700;}
+.profile-details-list{background:var(--card);margin:0 16px;padding:0 20px;border-radius:20px}
+.profile-detail-item{display:flex;align-items:center;padding:20px 0;border-bottom:1px solid var(--brd);gap:16px}
+.profile-detail-item:last-child{border-bottom:none}
+.profile-detail-icon{width:46px;height:46px;border-radius:14px;background:var(--pri-l);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.profile-detail-icon svg{width:24px;height:24px;stroke:var(--pri);fill:none;stroke-width:2.5}
+.profile-detail-text h4{font-size:12px;color:var(--mut);font-weight:700;margin-bottom:4px}
+.profile-detail-text p{font-size:16px;font-family:var(--fh);font-weight:800;word-break:break-all}
+.subject-card{background:var(--card);border-radius:16px;border:1px solid var(--brd);padding:18px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.03);transition:.2s}
+.subject-left{display:flex;align-items:center;gap:16px}
+.subj-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:800;font-size:20px;flex-shrink:0;overflow:hidden}
+.subj-icon img{width:100%;height:100%;object-fit:cover}
+.subj-name{font-size:17px;font-family:var(--fh);font-weight:800}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:10000;display:none;justify-content:center;align-items:center;padding:20px;backdrop-filter:blur(4px)}
+.modal-card{background:var(--card);border-radius:20px;padding:24px;width:100%;max-width:420px;text-align:center;position:relative;max-height:90vh;overflow-y:auto}
+.modal-close{position:absolute;top:12px;right:16px;background:none;border:none;font-size:26px;color:var(--mut);cursor:pointer}
+#test-screen{position:fixed;inset:0;background:var(--bg);z-index:99999;display:none;flex-direction:column}
+.test-header{background:var(--pri-g);color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 15px rgba(30,58,138,.3)}
+.test-timer{background:#fff;color:var(--pri);padding:8px 16px;border-radius:20px;font-weight:900;font-family:var(--fh);font-size:16px;}
+.test-body{flex:1;overflow-y:auto;padding:20px 16px 120px;background:var(--bg)}
+.question-text{font-size:16px;font-weight:700;color:var(--txt);margin-bottom:16px;font-family:var(--fh);background:var(--card);padding:16px;border-radius:14px;border-left:4px solid var(--pri)}
+.option-item{background:var(--card);border:2px solid var(--brd);border-radius:14px;padding:14px;margin-bottom:12px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:.2s}
+.option-item.selected{border-color:var(--pri);background:var(--pri-l)}
+.option-letter{width:36px;height:36px;border-radius:50%;background:var(--pri-l);color:var(--pri);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:800;}
+.option-item.selected .option-letter{background:var(--pri);color:#fff}
+.test-footer{position:fixed;bottom:0;left:0;right:0;background:var(--card);padding:12px 16px;display:flex;gap:10px;border-top:1px solid var(--brd);max-width:400px;margin:0 auto}
+.test-nav-btn{flex:1;padding:14px;border:none;border-radius:12px;font-family:var(--fh);font-weight:800;font-size:15px;}
+.btn-prev{background:var(--bg);color:var(--txt)}
+.btn-next{background:var(--pri-g);color:#fff}
+.btn-submit-test{background:var(--grn-g);color:#fff}
+.qr-box{background:#fff;padding:10px;border-radius:16px;display:inline-block;margin:15px 0;box-shadow:0 4px 15px rgba(0,0,0,0.1)}
+.qr-box img{width:180px;height:180px;object-fit:contain}
+.upi-box{background:var(--pri-l);padding:12px;border-radius:12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.upi-text{font-family:monospace;font-size:16px;font-weight:bold;color:var(--pri)}
+.btn-copy{background:var(--pri);color:#fff;border:none;padding:6px 12px;border-radius:8px;font-weight:bold;cursor:pointer}
+.video-container{position:relative;width:100%;padding-bottom:56.25%;height:0;background:#000;border-radius:12px;overflow:hidden}
+.video-container iframe,.video-container video{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+.watermark{position:absolute;color:rgba(255,255,255,0.5);font-size:12px;font-weight:bold;pointer-events:none;z-index:10;transition:all 2s ease;text-shadow:1px 1px 3px #000;}
+@media(min-width:640px){
+html{background:#1e293b;height:100vh;overflow:hidden}
+body{max-width:400px;margin:0 auto;height:100vh;box-shadow:0 0 80px rgba(0,0,0,.5);overflow:hidden}
+#auth-screen{left:50%;transform:translateX(-50%);width:400px;height:100vh}
+#sidebar{left:calc(50% - 200px);transform:translateX(-100%)}
+#sidebar.open{left:calc(50% - 200px);transform:translateX(0)}
+#test-screen{max-width:400px;left:50%;transform:translateX(-50%)}
+.test-footer{width:400px}
+#block-screen{max-width:400px;left:50%;transform:translateX(-50%)}
+}
+</style>
+</head>
+<body>
+<div id="block-screen" class="hidden">
+  <img id="block-img" class="hidden" src="" alt="">
+  <div id="block-no-img" class="no-img hidden">🚫</div>
+  <h1 id="block-title">Coming Soon</h1>
+  <p id="block-message">This section is under maintenance.</p>
+  <button class="block-btn" onclick="closeBlockScreen()">← Back to Home</button>
+</div>
+<div id="loading-screen"><div class="spin"></div><p style="margin-top:10px;font-weight:bold;color:var(--pri);">JMKCC Loading...</p></div>
+<audio id="bg-music" loop><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg"></audio>
+<div class="floating-music" id="music-float-btn" data-feature="music" onclick="openMusicModal()">🎵</div>
+<div id="music-modal">
+  <div class="music-box">
+    <button class="chat-close-btn" onclick="closeMusicModal()">&times;</button>
+    <div class="music-cover" id="music-cover-img">🎵</div>
+    <div class="music-title">Background Music</div>
+    <div class="music-artist">JMKCC Study</div>
+    <div class="music-controls">
+      <button class="music-btn-sm">⏮</button>
+      <button class="music-btn" id="music-play-btn" onclick="toggleMusicPlay()">▶</button>
+      <button class="music-btn-sm">⏭</button>
+    </div>
+  </div>
+</div>
+<div class="floating-chat" data-feature="chat" onclick="openChatModal()"><svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg></div>
+<div id="chat-modal">
+  <div class="chat-box">
+    <button class="chat-close-btn" onclick="closeChatModal()">&times;</button>
+    <div class="chat-icon-circle"><svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg></div>
+    <h3 id="chat-modal-title">Namaste Student! 🙏</h3>
+    <p id="chat-modal-text">Kya aapko kisi question ya test mein dikkat aa rahi hai?</p>
+    <button class="btn-chat-action" onclick="openChatLink()"><span id="chat-btn-text">Sir se Baat Karein</span></button>
+  </div>
+</div>
+<div id="auth-screen" class="hidden">
+  <div class="logo-area"><div class="logo-circle"><img src="https://i.ibb.co/ycf1gWjz/file-0000000029f082089bbd35f27746b551.png" alt="Logo"></div></div>
+  <h2 class="welcome-title">JMKCC STUDY</h2>
+  <p class="welcome-desc">सीखो, आगे बढ़ो और अपने सपनों को साकार करो।</p>
+  <div id="register-box" class="hidden">
+    <h3 style="font-family:var(--fh);font-weight:800;font-size:20px;color:var(--pri);text-align:center;margin-bottom:15px;">Create Account</h3>
+    <input type="text" id="regName" class="premium-input" placeholder="Full Name" />
+    <input type="text" id="regIdentifier" class="premium-input" placeholder="Mobile (10 digits) या Gmail" />
+    <input type="password" id="regPass" class="premium-input" placeholder="Create Password (min 6 chars)" />
+    <input type="password" id="regPass2" class="premium-input" placeholder="Confirm Password" />
+    <button class="btn-google-top" onclick="handleRegister()"><img src="https://i.ibb.co/3Y9dbj31/image-search-1793439767708.jpg" alt="G"> Verify with Google & Create Account</button>
+    <p class="msg" id="regMsg"></p>
+    <button class="auth-tab-btn" onclick="switchAuth('login')">Already registered? Login →</button>
+  </div>
+  <div id="login-box" class="hidden">
+    <div class="input-group"><label>MOBILE / GMAIL</label><div class="input-box"><input type="text" id="loginId" placeholder="Mobile Number or Gmail" /></div></div>
+    <div class="input-group"><label>PASSWORD</label><div class="input-box"><input type="password" id="loginPass" placeholder="Enter password" /></div></div>
+    <button class="btn-main" id="btn-login" onclick="handleLogin()">Login</button>
+    <p class="msg" id="loginMsg"></p>
+    <button class="btn-google" onclick="handleGoogleLogin()"><img src="https://i.ibb.co/3Y9dbj31/image-search-1793439767708.jpg" alt="G"> Sign in with Google</button>
+    <button class="auth-tab-btn" onclick="switchAuth('register')">New user? Create Account →</button>
+  </div>
+</div>
+<div id="main-app" class="hidden">
+  <div id="drawer-overlay" onclick="toggleSidebar()"></div>
+  <div id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo"><img src="https://i.ibb.co/ycf1gWjz/file-0000000029f082089bbd35f27746b551.png" alt="Logo"></div>
+      <div class="sidebar-name" id="sidebar-user-name">Student</div>
+      <div class="sidebar-email" id="sidebar-user-email">email@gmail.com</div>
+    </div>
+    <div class="sidebar-menu">
+      <div class="menu-item active" data-feature="home" onclick="switchPage('page-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> Home</div>
+      <div class="menu-item" data-feature="paid_courses" onclick="switchPage('page-paid')"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> My Courses</div>
+      <div class="menu-item" data-feature="notes" onclick="switchPage('page-notes')"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Study Material</div>
+      <div class="menu-item" data-feature="profile" onclick="switchPage('page-profile')"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg> My Profile</div>
+      <div class="menu-item" onclick="toggleDarkMode()"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> <span id="theme-text">Dark Mode</span></div>
+      <div class="btn-logout-menu" onclick="logoutUser()">Logout</div>
+    </div>
+  </div>
+  <div id="page-home" class="page active">
+    <header class="page-header">
+      <div class="header-left">
+        <svg onclick="toggleSidebar()" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <select id="headerClassSelector" class="class-selector" onchange="updateUserClass(this.value)"><option value="9th">9th ⌄</option><option value="10th">10th ⌄</option><option value="11th">11th ⌄</option><option value="12th" selected>12th ⌄</option></select>
+      </div>
+      <div data-feature="notifications" onclick="openNotifications()" style="position:relative;cursor:pointer;"><svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:#fff;stroke-width:2.5;fill:none"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span id="notif-dot" class="hidden" style="position:absolute;top:-2px;right:0;width:10px;height:10px;background:red;border-radius:50%;"></span></div>
+    </header>
+    <div class="greeting-area"><div>Hello, <span id="home-user-name">Student</span></div><div class="streak-badge">🔥 <span id="streak-count">1</span> Days</div></div>
+    <div id="live-class-banner" class="hidden live-banner" data-feature="live_class"><div><h4 style="font-weight:800;font-size:15px;">🔴 Live Class Started!</h4></div><button onclick="joinLiveClass()" style="background:#fff;color:#DC2626;border:none;padding:8px 15px;border-radius:10px;font-weight:bold;cursor:pointer;">Join</button></div>
+    <div class="banner-wrapper" data-feature="banners"><div class="banner-slider" id="home-banner-slider"></div><div class="banner-dots" id="banner-dots"></div></div>
+    <div class="grid-3x3">
+      <div class="grid-item" data-feature="paid_courses" onclick="switchPage('page-paid')"><div class="grid-icon"><svg viewBox="0 0 100 100"><rect x="25" y="20" width="50" height="65" rx="6" fill="#4F46E5"/><path d="M25 30 L75 30" stroke="#fff" stroke-width="4"/><path d="M50 45 L55 55 L65 55 L57 62 L60 72 L50 66 L40 72 L43 62 L35 55 L45 55 Z" fill="#FBBF24"/></svg></div><span>Premium<br>Courses</span></div>
+      <div class="grid-item" data-feature="free_courses" onclick="switchPage('page-free')"><div class="grid-icon"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="#10B981"/><polygon points="42,35 42,65 68,50" fill="#fff"/></svg></div><span>Free<br>Courses</span></div>
+      <div class="grid-item" data-feature="notes" onclick="switchPage('page-notes')"><div class="grid-icon"><svg viewBox="0 0 100 100"><rect x="25" y="15" width="50" height="70" rx="6" fill="#F59E0B"/><path d="M35 30 L65 30" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M35 45 L65 45" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M35 60 L50 60" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg></div><span>Free<br>Notes</span></div>
+      <div class="grid-item" data-feature="free_tests" onclick="openTestSubjectPage('free')"><div class="grid-icon"><svg viewBox="0 0 100 100"><circle cx="50" cy="55" r="30" fill="#3B82F6"/><rect x="45" y="15" width="10" height="15" fill="#1D4ED8"/><circle cx="50" cy="55" r="22" fill="#fff"/><path d="M50 40 L50 55 L62 55" stroke="#3B82F6" stroke-width="4" stroke-linecap="round"/></svg></div><span>Free<br>Tests</span></div>
+      <div class="grid-item" data-feature="timetable" onclick="switchPage('page-timetable')"><div class="grid-icon"><svg viewBox="0 0 100 100"><rect x="20" y="25" width="60" height="60" rx="8" fill="#F97316"/><rect x="20" y="25" width="60" height="15" rx="8" fill="#C2410C"/><circle cx="35" cy="55" r="6" fill="#fff"/><circle cx="50" cy="55" r="6" fill="#fff"/><circle cx="65" cy="55" r="6" fill="#fff"/></svg></div><span>Class<br>Timetable</span></div>
+      <div class="grid-item" data-feature="ncert" onclick="switchPage('page-ncert')"><div class="grid-icon"><svg viewBox="0 0 100 100"><rect x="25" y="40" width="50" height="35" rx="4" fill="#EF4444"/><rect x="25" y="30" width="45" height="15" rx="4" fill="#F59E0B"/><rect x="25" y="20" width="40" height="15" rx="4" fill="#3B82F6"/></svg></div><span>NCERT<br>Books</span></div>
+      <div class="grid-item" data-feature="book_tests" onclick="openTestSubjectPage('book')"><div class="grid-icon"><svg viewBox="0 0 100 100"><rect x="25" y="20" width="50" height="65" rx="6" fill="#8B5CF6"/><rect x="35" y="30" width="30" height="5" rx="2" fill="#fff"/><rect x="35" y="45" width="30" height="5" rx="2" fill="#fff"/><circle cx="70" cy="70" r="16" fill="#10B981"/><path d="M62 70 L68 76 L80 62" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></svg></div><span>Book<br>Test</span></div>
+      <div class="grid-item" data-feature="papers" onclick="switchPage('page-papers')"><div class="grid-icon"><svg viewBox="0 0 100 100"><path d="M15 30 Q50 20 50 45 L50 80 Q50 55 15 65 Z" fill="#F43F5E"/><path d="M85 30 Q50 20 50 45 L50 80 Q50 55 85 65 Z" fill="#FB7185"/></svg></div><span>Papers &<br>Updates</span></div>
+      <div class="grid-item" data-feature="doubts" onclick="openDoubtModal()"><div class="grid-icon"><svg viewBox="0 0 100 100"><path d="M20 30 L80 30 L80 70 L40 70 L20 85 Z" fill="#10B981"/><circle cx="50" cy="50" r="15" fill="#fff"/></svg></div><span>Ask<br>Doubt</span></div>
+    </div>
+    <div data-feature="leaderboard" id="leaderboard-section"><div class="section-title">🏆 Top Students</div><div id="home-leaderboard"><div class="empty-state" style="padding:20px;"><h3>Loading...</h3></div></div></div>
+    <div data-feature="courses" id="courses-section"><div class="section-title">Latest Courses & Videos</div><div id="home-course-list"></div></div>
+    <nav class="bottom-nav">
+      <div class="nav-btn active" data-feature="home" onclick="switchPage('page-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Home</span></div>
+      <div class="nav-btn" data-feature="courses" onclick="switchPage('page-paid')"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Courses</span></div>
+      <div class="nav-btn" data-feature="tests" onclick="openTestSubjectPage('free')"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>Tests</span></div>
+      <div class="nav-btn" data-feature="profile" onclick="switchPage('page-profile')"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg><span>Profile</span></div>
+    </nav>
+  </div>
+  <div id="page-notifications" class="page" data-feature="notifications"><header class="inner-header"><div class="header-left"><svg onclick="switchPage('page-home')" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><h2>Notifications</h2></div></header><div class="list-container" id="notifications-list"></div></div>
+  <div id="page-profile" class="page" data-feature="profile"><header class="inner-header"><div class="header-left"><svg onclick="switchPage('page-home')" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><h2>My Profile</h2></div></header><div class="profile-header"><div class="profile-avatar"><span id="prof-initial">S</span></div><div class="profile-name" id="prof-name">Student</div></div><div class="stats-container"><div class="stat-box"><h4 id="stat-total-tests">0</h4><p>Tests</p></div><div class="stat-box"><h4 id="stat-avg-score">0%</h4><p>Avg Score</p></div></div><div class="profile-details-list"><div class="profile-detail-item"><div class="profile-detail-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/></svg></div><div class="profile-detail-text"><h4>Mobile</h4><p id="prof-mobile">—</p></div></div><div class="profile-detail-item"><div class="profile-detail-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div class="profile-detail-text"><h4>Email</h4><p id="prof-email">—</p></div></div></div><div class="section-title" style="margin-top:20px;">📊 My Test History</div><div id="history-container" style="margin:0 16px 20px;"></div></div>
+  <div id="page-paid" class="page" data-feature="paid_courses"><header class="inner-header"><div class="header-left"><svg onclick="switchPage('page-home')" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><h2>Paid Courses</h2></div></header><div class="list-container" id="paid-course-list"></div></div>
+  <div id="page-free" class="page" data-feature="free_courses"><header class="inner-header"><div class="header-left"><svg onclick="switchPage('page-home')" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><h2>Free Courses</h2></div></header><div class="list-container" id="free-course-list"></div></div>
+  <div id="page-subjects" class="page" data-feature="tests"><header class="inner-header"><div class="header-left"><svg onclick="switchPage('page-home')" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><h2>Select Subject</h2></div></header><div class="list-container" id="subjects-container"></div></div>
+  <div id="page-tests-list" class="page" data-feature="tests"><header class="inner-header"><div class="header-left"><svg onclick="switchPage('page-subjects')" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><h2 id="test-subject-title">Tests</h2></div></header><div class="list-container" id="tests-container"></div></div>
+  <div id="page-notes" class="page" data-feature="notes"><header class="inner-header"><div class="header-left"><svg onclick="switchPage('page-home')" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><h2>Study Material</h2></div></header><div class="list-container" id="notes-container"></div></div>
+  <div id="page-timetable" class="page" data-feature="timetable"><header class="inner-header"><div class="header-left"><svg onclick="switchPage('page-home')" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><h2>Class Timetable</h2></div></header><div class="list-container" id="timetable-container"></div></div>
+  <div id="page-ncert" class="page" data-feature="ncert"><header class="inner-header"><div class="header-left"><svg onclick="switchPage('page-home')" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><h2>NCERT Books</h2></div></header><div class="list-container" id="ncert-container"></div></div>
+  <div id="page-papers" class="page" data-feature="papers"><header class="inner-header"><div class="header-left"><svg onclick="switchPage('page-home')" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><h2>Papers & Updates</h2></div></header><div class="list-container" id="papers-container"></div></div>
+</div>
+<div id="doubt-modal" class="modal-overlay hidden" data-feature="doubts">
+  <div class="modal-card">
+    <button class="modal-close" onclick="document.getElementById('doubt-modal').classList.add('hidden')">&times;</button>
+    <h3 style="color:var(--pri);font-family:var(--fh);font-weight:800;margin-bottom:10px;">Ask Doubt</h3>
+    <textarea id="doubt-text" class="premium-input" rows="4" style="resize:none;"></textarea>
+    <button class="btn-main" id="btn-send-doubt" onclick="submitDoubt()">Send Message</button>
+  </div>
+</div>
+<div id="payment-modal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <button class="modal-close" onclick="document.getElementById('payment-modal').classList.add('hidden')">&times;</button>
+    <h3 style="color:var(--pri);font-family:var(--fh);font-weight:800;margin-bottom:10px;">Complete Payment</h3>
+    <div class="qr-box"><img id="pay-qr" src="" alt="QR"></div>
+    <div class="upi-box"><span class="upi-text" id="pay-upi">loading...</span><button class="btn-copy" onclick="copyUpi()">Copy</button></div>
+    <input type="text" id="pay-utr" class="premium-input" placeholder="Enter 12-Digit UTR / Transaction ID">
+    <input type="hidden" id="pay-course-title">
+    <input type="hidden" id="pay-amount">
+    <button class="btn-main" id="pay-btn" onclick="submitPayment()">Verify Payment</button>
+  </div>
+</div>
+<div id="roll-modal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <h3 style="color:var(--pri);font-family:var(--fh);font-weight:800;margin-bottom:15px;">Test Details</h3>
+    <input type="text" id="roll-name" class="premium-input" placeholder="Your Name" readonly style="opacity:0.7;background:var(--bg);">
+    <input type="text" id="roll-class" class="premium-input" placeholder="Class" readonly style="opacity:0.7;background:var(--bg);">
+    <input type="text" id="roll-number" class="premium-input" placeholder="Enter Roll Number">
+    <button class="btn-main" onclick="startTestWithRoll()">Start Test</button>
+  </div>
+</div>
+<div id="test-screen">
+  <div class="test-header"><div class="test-header-info"><div class="test-header-title" id="test-header-title">Test</div></div><div class="test-timer" id="test-timer">⏱ 00:00</div></div>
+  <div class="test-body" id="test-body"></div>
+  <div class="test-footer" id="test-footer">
+    <button class="test-nav-btn btn-prev" id="btn-prev" onclick="prevQuestion()">◀ Prev</button>
+    <button class="test-nav-btn btn-palette" onclick="showPalette()">☰</button>
+    <button class="test-nav-btn btn-next" id="btn-next" onclick="nextQuestion()">Next ▶</button>
+    <button class="test-nav-btn btn-submit-test hidden" id="btn-submit-test" onclick="confirmSubmit()">Submit</button>
+  </div>
+</div>
+<div id="palette-modal" class="modal-overlay hidden" onclick="if(event.target.id==='palette-modal') closePalette()">
+  <div class="modal-card"><h3>Question Palette</h3><div class="palette-grid" id="palette-grid"></div><button class="btn-main" onclick="closePalette()">Close</button></div>
+</div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, EmailAuthProvider, linkWithCredential, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, collection, getDocs, query, where, addDoc, orderBy, limit, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+const firebaseConfig = { apiKey: "AIzaSyC0qCf4Vb0SQtOKUxYh_7_u9Kb0-0uPTmc", authDomain: "jmkcc-8aeaf.firebaseapp.com", projectId: "jmkcc-8aeaf", storageBucket: "jmkcc-8aeaf.firebasestorage.app", messagingSenderId: "223185775528", appId: "1:223185775528:web:296dd044a888fac0080b9d" };
+const DEFAULT_LOGO = 'https://i.ibb.co/ycf1gWjz/file-0000000029f082089bbd35f27746b551.png';
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const googleProvider = new GoogleAuthProvider();
+setPersistence(auth, browserLocalPersistence).catch(console.error);
+const state = { features:{}, featureBlocks:{}, maintenance:{enabled:false, imageUrl:'', title:'App Under Maintenance', message:"We'll be back soon!"}, settings:{} };
+let currentUserName = "Student", currentUserClass = "12th", currentUserMobile = "N/A", currentUserEmail = "N/A";
+let chatTitle = "Namaste Student! 🙏", chatMessage = "Kya aapko kisi question ya test mein dikkat aa rahi hai?", chatButtonText = "Sir se Baat Karein", chatUrl = "https://wa.me/919876543210";
+let upiId = "", qrUrl = "", askRollNo = false, liveLink = "", enablePayments = true;
+let testRollNo = "";
+let currentTest = null, currentQuestionIndex = 0, userAnswers = {}, timeLeft = 0, timerInterval = null, isRegistering = false;
+let currentTestType = 'free';
+let _lastSettingsHash = '', _lastCoursesHash = '', _lastBannersHash = '';
+let activeCourseUnsub = null;
+let activePage = 'page-home';
+let blockActive = false;
+let wmInterval = null;
+let isMusicPlaying = false;
+function isFeatureOn(id){ return state.features[id] !== false; }
+function isMaintenance(){ return state.maintenance.enabled === true; }
+function getBlockConfig(featureId){ const b = state.featureBlocks[featureId] || {}; return { imageUrl: b.imageUrl || '', title: b.title || 'Coming Soon', message: b.message || 'This section is under maintenance. Please check back later.' }; }
+function applyLogo(url){ const finalUrl = url || DEFAULT_LOGO; document.querySelectorAll('.logo-circle img, .sidebar-logo img').forEach(img => { if(img) img.src = finalUrl; }); }
+function showBlockScreen(config, isMaintenanceMode){
+  blockActive = true;
+  const bs = document.getElementById('block-screen'), img = document.getElementById('block-img'), noImg = document.getElementById('block-no-img');
+  document.getElementById('block-title').innerText = config.title || 'Coming Soon';
+  document.getElementById('block-message').innerText = config.message || 'Please check back later.';
+  if(config.imageUrl && config.imageUrl.trim()){ img.src = config.imageUrl; img.classList.remove('hidden'); noImg.classList.add('hidden'); } else { img.classList.add('hidden'); noImg.classList.remove('hidden'); }
+  bs.classList.toggle('full-maintenance', !!isMaintenanceMode); bs.classList.remove('hidden'); document.getElementById('main-app').classList.add('hidden');
+}
+window.closeBlockScreen = () => { blockActive = false; document.getElementById('block-screen').classList.add('hidden'); if(isMaintenance()){ showBlockScreen(state.maintenance, true); return; } document.getElementById('main-app').classList.remove('hidden'); switchPage('page-home'); };
+function applyBlockIfNeeded(){ if(isMaintenance()){ showBlockScreen(state.maintenance, true); return true; } return false; }
+function applyFeatureVisibility(){
+  document.querySelectorAll('[data-feature]').forEach(el => {
+    const f = el.dataset.feature; if(!f) return;
+    if(f === 'courses'){ el.style.display = (isFeatureOn('courses') || isFeatureOn('paid_courses') || isFeatureOn('free_courses')) ? '' : 'none'; return; }
+    if(f === 'tests'){ el.style.display = (isFeatureOn('tests') || isFeatureOn('free_tests') || isFeatureOn('book_tests')) ? '' : 'none'; return; }
+    el.style.display = isFeatureOn(f) ? '' : 'none';
+  });
+  const fc = document.querySelector('.floating-chat'); if(fc) fc.style.display = isFeatureOn('chat') ? '' : 'none';
+  const fm = document.getElementById('music-float-btn'); if(fm) fm.style.display = isFeatureOn('music') ? '' : 'none';
+  const lb = document.getElementById('live-class-banner'); if(lb){ const show = liveLink && liveLink.trim() !== '' && isFeatureOn('live_class'); lb.classList.toggle('hidden', !show); }
+}
+const PAGE_FEATURE_MAP = { 'page-home':'home','page-paid':'paid_courses','page-free':'free_courses','page-notes':'notes','page-ncert':'ncert','page-papers':'papers','page-timetable':'timetable','page-profile':'profile','page-notifications':'notifications','page-subjects':'tests','page-tests-list':'tests' };
+window.switchPage = (pageId) => {
+  if(applyBlockIfNeeded()) return;
+  const featureId = PAGE_FEATURE_MAP[pageId];
+  if(featureId){
+    let allowed = isFeatureOn(featureId);
+    if(pageId === 'page-paid') allowed = isFeatureOn('paid_courses') && isFeatureOn('courses');
+    if(pageId === 'page-free') allowed = isFeatureOn('free_courses') && isFeatureOn('courses');
+    if(pageId === 'page-subjects' || pageId === 'page-tests-list') allowed = isFeatureOn('tests');
+    if(!allowed){ showBlockScreen(getBlockConfig(featureId), false); return; }
+  }
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const t = document.getElementById(pageId); if(t){ t.classList.add('active'); activePage = pageId; window.scrollTo(0,0); }
+  if(document.getElementById('sidebar').classList.contains('open')) toggleSidebar();
+  applyFeatureVisibility();
+};
+window.toggleSidebar = () => {
+  const s = document.getElementById('sidebar'), o = document.getElementById('drawer-overlay');
+  if(s.classList.contains('open')){ s.classList.remove('open'); o.classList.remove('active'); setTimeout(()=>o.style.display='none',300); } else { o.style.display='block'; setTimeout(()=>o.classList.add('active'),10); s.classList.add('open'); }
+};
+function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function updateSilently(el, newHtml){ if(!el) return; if(el.innerHTML === newHtml) return; el.style.opacity = '0.6'; setTimeout(() => { el.innerHTML = newHtml; el.classList.add('silent-fade'); el.style.opacity = '1'; setTimeout(() => el.classList.remove('silent-fade'), 400); }, 80); }
+window.openMusicModal = () => { if(!isFeatureOn('music')) { alert("Music feature is disabled by admin."); return; } document.getElementById('music-modal').style.display = 'flex'; };
+window.closeMusicModal = () => { document.getElementById('music-modal').style.display = 'none'; };
+window.toggleMusicPlay = () => {
+  const audio = document.getElementById('bg-music'), playBtn = document.getElementById('music-play-btn'), cover = document.getElementById('music-cover-img');
+  if(audio.paused) { audio.play().then(() => { playBtn.innerText = '⏸'; cover.classList.add('playing'); isMusicPlaying = true; }).catch(e => alert("Audio play failed: " + e.message)); } else { audio.pause(); playBtn.innerText = '▶'; cover.classList.remove('playing'); isMusicPlaying = false; }
+};
+document.addEventListener('contextmenu', e => e.preventDefault());
+if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+window.toggleDarkMode = () => { document.body.classList.toggle('dark-mode'); localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); document.getElementById('theme-text').innerText = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode'; };
+const today = new Date().toDateString(); let last = localStorage.getItem('last_login');
+if(last !== today) { localStorage.setItem('streak', parseInt(localStorage.getItem('streak')||'0')+1); localStorage.setItem('last_login', today); }
+document.getElementById('streak-count').innerText = localStorage.getItem('streak') || 1;
+document.getElementById('theme-text').innerText = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+window.switchAuth = (which) => { document.getElementById('login-box').classList.toggle('hidden', which === 'register'); document.getElementById('register-box').classList.toggle('hidden', which === 'login'); };
+window.handleRegister = async () => {
+  const msg = document.getElementById('regMsg'), name = document.getElementById('regName').value.trim(), identifier = document.getElementById('regIdentifier').value.trim(), pass = document.getElementById('regPass').value, pass2 = document.getElementById('regPass2').value;
+  if(!name){ msg.textContent='नाम भरें!'; msg.style.color='#DC2626'; return; } if(!identifier){ msg.textContent='Mobile/Gmail भरें!'; msg.style.color='#DC2626'; return; } if(!pass || pass.length < 6){ msg.textContent='Password कम से कम 6 अक्षर!'; msg.style.color='#DC2626'; return; } if(pass !== pass2){ msg.textContent='दोनों password मेल नहीं!'; msg.style.color='#DC2626'; return; }
+  const isMobile = /^\d{10}$/.test(identifier), isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
+  if(!isMobile && !isEmail){ msg.textContent='सही Mobile/Gmail डालें!'; msg.style.color='#DC2626'; return; }
+  msg.style.color='#16A34A'; msg.textContent='Google Popup खुल रहा है...'; isRegistering = true;
+  try {
+    const result = await signInWithPopup(auth, googleProvider), user = result.user, existing = await getDoc(doc(db, "users", user.uid));
+    if(existing.exists()){ await signOut(auth); localStorage.setItem('jmkcc_logged_out', 'true'); msg.textContent = '✅ आप पहले से रजिस्टर हैं। Login करें।'; msg.style.color = '#16A34A'; setTimeout(() => { switchAuth('login'); document.getElementById('loginId').value = identifier; }, 1500); isRegistering = false; return; }
+    try { const c = EmailAuthProvider.credential(user.email, pass); await linkWithCredential(user, c); } catch(e){ console.log('link err:', e.message); }
+    await setDoc(doc(db, "users", user.uid), { name, mobile: isMobile ? identifier : 'Not Provided', email: user.email, identifier, class: '12th', photoURL: user.photoURL || '', isBlocked: false, createdAt: new Date() });
+    localStorage.setItem('jmkcc_logged_out', 'false'); msg.style.color = '#16A34A'; msg.innerHTML = '✅ Account बन गया!'; isRegistering = false; await loadUserAndShowApp(user);
+  } catch(err){
+    isRegistering = false; msg.style.color = '#DC2626';
+    if(err.code === 'auth/popup-closed-by-user') msg.textContent = 'Google window बंद हो गया।'; else if(err.code === 'auth/credential-already-in-use') msg.textContent = 'यह Gmail registered है। Login करें।'; else msg.textContent = '❌ ' + err.message;
+  }
+};
+window.handleGoogleLogin = async () => {
+  try {
+    const result = await signInWithPopup(auth, googleProvider), user = result.user, userRef = doc(db, "users", user.uid), userSnap = await getDoc(userRef);
+    if(!userSnap.exists()){ await setDoc(userRef, { name: user.displayName || 'Student', mobile: 'Not Provided', email: user.email, class: '12th', photoURL: user.photoURL || '', isBlocked: false, createdAt: new Date() }); }
+    localStorage.setItem('jmkcc_logged_out', 'false');
+  } catch(err){ if(err.code !== 'auth/popup-closed-by-user') alert("Google Login Failed: " + err.message); }
+};
+window.handleLogin = async () => {
+  const btn = document.getElementById('btn-login'), msg = document.getElementById('loginMsg'), loginId = document.getElementById('loginId').value.trim(), pass = document.getElementById('loginPass').value;
+  if(!loginId || !pass){ msg.textContent='Mobile/Gmail और password भरें!'; msg.style.color='#DC2626'; return; }
+  btn.disabled = true; btn.textContent = 'Logging in...'; msg.textContent = '';
+  try {
+    let email = loginId;
+    if(/^\d{10}$/.test(loginId)){ const q = query(collection(db, "users"), where("mobile", "==", loginId)), snap = await getDocs(q); if(snap.empty){ msg.style.color='#DC2626'; msg.textContent='❌ मोबाइल रजिस्टर नहीं!'; btn.disabled=false; btn.textContent='Login'; return; } email = snap.docs[0].data().email; }
+    await signInWithEmailAndPassword(auth, email, pass); localStorage.setItem('jmkcc_logged_out', 'false');
+  } catch(err){ msg.style.color = '#DC2626'; if(err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') msg.textContent = '❌ गलत password!'; else if(err.code === 'auth/user-not-found') msg.textContent = '❌ Account नहीं मिला!'; else msg.textContent = '❌ ' + err.message; btn.disabled = false; btn.textContent = 'Login'; }
+};
+window.logoutUser = async () => { if(confirm("Logout करना है?")){ localStorage.setItem('jmkcc_logged_out', 'true'); await signOut(auth); } };
+async function loadUserAndShowApp(user){
+  document.getElementById('loading-screen').style.display = 'none'; document.getElementById('auth-screen').classList.add('hidden');
+  const settingsSnap = await getDoc(doc(db,'settings','app'));
+  if(settingsSnap.exists()){ const d = settingsSnap.data(); state.maintenance = d.maintenance || state.maintenance; state.features = d.features || {}; state.featureBlocks = d.featureBlocks || {}; state.settings = d; }
+  applyLogo(state.settings.logoUrl || DEFAULT_LOGO); if(applyBlockIfNeeded()) return;
+  const userSnap = await getDoc(doc(db, "users", user.uid));
+  if(userSnap.exists()){ 
+    const d = userSnap.data(); 
+    if(d.isBlocked === true) { document.getElementById('main-app').classList.add('hidden'); document.getElementById('block-screen').classList.remove('hidden'); document.getElementById('block-title').innerText = "Account Blocked"; document.getElementById('block-message').innerText = "आपका अकाउंट एडमिन द्वारा ब्लॉक कर दिया गया है। कृपया सपोर्ट से संपर्क करें।"; document.getElementById('block-no-img').classList.remove('hidden'); document.getElementById('block-img').classList.add('hidden'); document.getElementById('block-screen').classList.add('full-maintenance'); return; }
+    let dbName = d.name;
+    if (!dbName || dbName === 'Student' || dbName === 'User' || dbName === 'N/A') { dbName = user.displayName || (user.email ? user.email.split('@')[0] : 'Student'); updateDoc(doc(db, "users", user.uid), { name: dbName }).catch(e => console.log(e)); }
+    currentUserName = dbName; currentUserEmail = d.email || user.email; currentUserMobile = d.mobile || 'Not Provided'; currentUserClass = d.class || '12th'; 
+  } else { currentUserName = user.displayName || user.email.split('@')[0]; currentUserEmail = user.email; currentUserMobile = 'Not Provided'; }
+  document.getElementById('main-app').classList.remove('hidden');
+  updateUI(); loadAppSettings(); loadCoursesFromDB(); loadTestHistory(); loadLeaderboard(); loadNotes(); loadTimetable(); loadNCERT(); loadPapers(); checkNotifications();
+}
+onAuthStateChanged(auth, async user => {
+  if(isRegistering) return;
+  if(user){ await loadUserAndShowApp(user); } else { document.getElementById('loading-screen').style.display = 'none'; document.getElementById('main-app').classList.add('hidden'); document.getElementById('block-screen').classList.add('hidden'); document.getElementById('auth-screen').classList.remove('hidden'); applyLogo(DEFAULT_LOGO); if(localStorage.getItem('jmkcc_logged_out') === 'true'){ switchAuth('login'); } else { switchAuth('register'); } }
+});
+function updateUI(){
+  document.getElementById('sidebar-user-name').textContent = currentUserName; document.getElementById('sidebar-user-email').textContent = currentUserEmail; document.getElementById('home-user-name').textContent = currentUserName; document.getElementById('prof-name').innerText = currentUserName; document.getElementById('prof-mobile').innerText = currentUserMobile; document.getElementById('prof-email').innerText = currentUserEmail; document.getElementById('prof-initial').innerText = currentUserName.charAt(0).toUpperCase();
+  const classSelect = document.getElementById('headerClassSelector'); let matchedClass = "12th";
+  if(currentUserClass) { if(currentUserClass.includes('9')) matchedClass = "9th"; else if(currentUserClass.includes('10')) matchedClass = "10th"; else if(currentUserClass.includes('11')) matchedClass = "11th"; else if(currentUserClass.includes('12')) matchedClass = "12th"; }
+  classSelect.value = matchedClass; currentUserClass = matchedClass; document.getElementById('roll-name').value = currentUserName; document.getElementById('roll-class').value = currentUserClass;
+}
+window.updateUserClass = (c) => { currentUserClass = c; updateUI(); loadCoursesFromDB(); loadLeaderboard(); loadNotes(); loadTimetable(); loadNCERT(); loadPapers(); };
+function loadAppSettings(){
+  try {
+    const docRef = doc(db, "settings", "app");
+    onSnapshot(docRef, (snap) => {
+      if(!snap.exists()){ renderBanners([]); applyLogo(DEFAULT_LOGO); return; }
+      const d = snap.data(); const newHash = JSON.stringify(d); if(newHash === _lastSettingsHash) return; _lastSettingsHash = newHash;
+      state.maintenance = d.maintenance || {enabled:false, imageUrl:'', title:'', message:''}; state.features = d.features || {}; state.featureBlocks = d.featureBlocks || {}; state.settings = d;
+      if(d.chatTitle) chatTitle = d.chatTitle; if(d.chatMessage) chatMessage = d.chatMessage; if(d.chatButtonText) chatButtonText = d.chatButtonText; if(d.chatLink) chatUrl = d.chatLink; if(d.upiId) upiId = d.upiId; if(d.qrCodeUrl) qrUrl = d.qrCodeUrl; askRollNo = d.askRollNo || false; enablePayments = d.enablePayments !== false; liveLink = (d.liveClassLink || '').trim();
+      applyLogo(d.logoUrl || DEFAULT_LOGO); renderBanners(d.banners || []); applyFeatureVisibility();
+      if(isMaintenance()){ showBlockScreen(state.maintenance, true); } else { if(blockActive){ const bs = document.getElementById('block-screen'); if(bs.classList.contains('full-maintenance')){ closeBlockScreen(); } } const featureId = PAGE_FEATURE_MAP[activePage]; if(featureId){ let allowed = isFeatureOn(featureId); if(activePage === 'page-paid') allowed = isFeatureOn('paid_courses') && isFeatureOn('courses'); if(activePage === 'page-free') allowed = isFeatureOn('free_courses') && isFeatureOn('courses'); if(!allowed) showBlockScreen(getBlockConfig(featureId), false); } }
+    });
+  } catch(e){ renderBanners([]); }
+}
+function renderBanners(banners){
+  const slider = document.getElementById('home-banner-slider'), dots = document.getElementById('banner-dots'); if(!slider || !dots) return;
+  if(!isFeatureOn('banners')){ document.querySelector('.banner-wrapper').style.display = 'none'; return; } else { document.querySelector('.banner-wrapper').style.display = ''; }
+  const newHash = JSON.stringify(banners); if(newHash === _lastBannersHash) return; _lastBannersHash = newHash;
+  if(!banners || banners.length === 0){ slider.innerHTML = `<div class="banner-slide" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1E3A8A,#3B82F6);"><span style="color:#fff;font-family:var(--fh);font-size:16px;font-weight:700;text-align:center;padding:20px;">Admin Panel से Banner जोड़ें</span></div>`; dots.innerHTML = `<span class="active"></span>`; return; }
+  slider.style.opacity = '0.6';
+  setTimeout(() => { slider.innerHTML = banners.map(u => `<div class="banner-slide"><img src="${u}" onerror="this.style.display='none'"></div>`).join(''); dots.innerHTML = banners.map((_,i) => `<span class="${i===0?'active':''}"></span>`).join(''); slider.style.opacity = '1'; slider.onscroll = () => { const idx = Math.round(slider.scrollLeft / slider.clientWidth); document.querySelectorAll('#banner-dots span').forEach((d,i) => d.className = i===idx ? 'active' : ''); }; }, 80);
+}
+window.openChatModal = () => { if(!isFeatureOn('chat')) return; document.getElementById('chat-modal-title').innerText = chatTitle; document.getElementById('chat-modal-text').innerHTML = chatMessage.replace(/\n/g,'<br>'); document.getElementById('chat-btn-text').innerText = chatButtonText; document.getElementById('chat-modal').style.display = 'flex'; };
+window.closeChatModal = () => document.getElementById('chat-modal').style.display = 'none';
+window.openChatLink = () => { if(chatUrl) window.open(chatUrl, '_blank'); closeChatModal(); };
+window.openDoubtModal = () => { if(!isFeatureOn('doubts')){ showBlockScreen(getBlockConfig('doubts'), false); return; } document.getElementById('doubt-modal').classList.remove('hidden'); };
+window.joinLiveClass = () => { if(liveLink) window.open(liveLink, '_blank'); };
+window.checkNotifications = () => { if(!isFeatureOn('notifications')) return; try { const q = query(collection(db, "notifications"), orderBy("createdAt", "desc"), limit(1)); onSnapshot(q, (snap) => { if(!snap.empty){ const lastNotif = snap.docs[0].data(), seen = localStorage.getItem('last_notif_seen'), dot = document.getElementById('notif-dot'); if(seen !== lastNotif.createdAt.toMillis().toString()) dot.classList.remove('hidden'); else dot.classList.add('hidden'); } }); } catch(e){} };
+window.openNotifications = async () => { if(!isFeatureOn('notifications')) return; switchPage('page-notifications'); document.getElementById('notif-dot').classList.add('hidden'); const c = document.getElementById('notifications-list'); c.innerHTML = '<div class="empty-state"><h3>Loading...</h3></div>'; try { const q = query(collection(db, "notifications"), orderBy("createdAt", "desc"), limit(20)), snap = await getDocs(q); if(snap.empty){ c.innerHTML = '<div class="empty-state"><h3>कोई Notification नहीं</h3></div>'; return; } let html = ''; snap.forEach(d => { const n = d.data(), date = n.createdAt ? n.createdAt.toDate().toLocaleDateString() : '', imgHtml = n.imageUrl ? `<img src="${escapeHtml(n.imageUrl)}" class="notif-img" onerror="this.style.display='none'">` : ''; html += `<div class="notif-card">${imgHtml}<div class="notif-title">${escapeHtml(n.title)}</div><div class="notif-msg">${escapeHtml(n.message)}</div><div class="notif-time">${date}</div></div>`; if(n.createdAt) localStorage.setItem('last_notif_seen', n.createdAt.toMillis().toString()); }); c.innerHTML = html; } catch(e){ c.innerHTML = '<div class="empty-state"><h3>Error</h3></div>'; } };
+async function loadCoursesFromDB(){
+  const homeList = document.getElementById('home-course-list'), paidList = document.getElementById('paid-course-list'), freeList = document.getElementById('free-course-list'); if(activeCourseUnsub) activeCourseUnsub();
+  const coursesSection = document.getElementById('courses-section'); if(coursesSection) coursesSection.style.display = isFeatureOn('courses') || isFeatureOn('paid_courses') || isFeatureOn('free_courses') ? '' : 'none';
+  try {
+    const paySnap = await getDocs(query(collection(db, "payments"), where("userId", "==", auth.currentUser.uid), where("status", "==", "approved"))); const approvedTitles = paySnap.docs.map(d => d.data().courseTitle);
+    const q = query(collection(db, "courses"), where("class", "==", currentUserClass));
+    activeCourseUnsub = onSnapshot(q, (snap) => {
+      if(snap.empty){ const empty = `<div class="empty-state"><h3>कोई कोर्स नहीं</h3></div>`; updateSilently(homeList, empty); updateSilently(paidList, empty); updateSilently(freeList, empty); return; }
+      let paidHtml = '', freeHtml = '';
+      snap.forEach(ds => {
+        const c = ds.data(); if(c.isPublished === false) return; const isFree = c.type === 'free', isPurchased = approvedTitles.includes(c.title);
+        let videoHtml = ''; if(c.videoUrl && c.videoUrl.trim() !== ''){ videoHtml = `<div class="video-thumb" style="position:relative;width:100%;height:150px;border-radius:12px;overflow:hidden;margin-bottom:10px;"><img src="${c.imageUrl||'https://images.unsplash.com/photo-1516321318423-f06f85e504b3'}" style="width:100%;height:100%;object-fit:cover;"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);"><svg viewBox="0 0 24 24" style="width:40px;height:40px;fill:#fff;"><path d="M8 5v14l11-7z"/></svg></div></div>`; }
+        let btnText = 'Buy Now', isUnlocked = false; if(isFree || !enablePayments || isPurchased) { btnText = 'Watch Now'; isUnlocked = true; }
+        const safeTitle = (c.title || 'Course').replace(/'/g, "\\'");
+        const card = `<div class="premium-card ${!isFree?'gold':''}" style="cursor:pointer;" onclick="handleCourseClick('${c.type}','${safeTitle}', '${c.price||0}', '${c.videoUrl||''}', ${isUnlocked})">${videoHtml}<div class="card-top">${!videoHtml ? `<img src="${c.imageUrl||'https://images.unsplash.com/photo-1497633762265-9d179a990aa6'}" class="card-img">` : ''}<div class="card-info"><div class="card-title">${escapeHtml(c.title||'Course')}</div><div class="card-sub">📅 ${escapeHtml(c.validity||'Lifetime')}</div><div class="card-tags"><span class="card-tag">📚 ${escapeHtml(c.subject||'General')}</span>${isUnlocked ? `<span class="card-tag" style="background:#D1FAE5;color:#059669;">✅ Unlocked</span>` : `<span class="card-tag" style="background:#FEE2E2;color:#DC2626;">🔒 Locked</span>`}</div></div></div><div class="card-bottom">${isFree || !enablePayments ? `<div class="price-free">FREE</div>` : `<div class="price-new">₹${c.price||0}</div>`}<button class="btn-buy-now" onclick="event.stopPropagation(); handleCourseClick('${c.type}','${safeTitle}', '${c.price||0}', '${c.videoUrl||''}', ${isUnlocked})">${btnText}</button></div></div>`;
+        if(isFree || !enablePayments) freeHtml += card; else paidHtml += card;
+      });
+      const showPaid = isFeatureOn('paid_courses') && isFeatureOn('courses'), showFree = isFeatureOn('free_courses') && isFeatureOn('courses');
+      updateSilently(homeList, (showPaid ? paidHtml : '') + (showFree ? freeHtml : '')); updateSilently(paidList, showPaid ? (paidHtml || '<div class="empty-state"><h3>कोई paid कोर्स नहीं</h3></div>') : ''); updateSilently(freeList, showFree ? (freeHtml || '<div class="empty-state"><h3>कोई free कोर्स नहीं</h3></div>') : '');
+    });
+  } catch(e){ console.log("Error loading courses:", e); }
+}
+window.handleCourseClick = (type, title, price, videoUrl, isUnlocked) => {
+  if(type === 'free' || isUnlocked) { 
+      if(videoUrl && videoUrl.trim() !== '') { 
+          window.open(videoUrl, '_blank'); // 👈 Seedha naya tab khulega
+      } else { 
+          alert("⚠️ Bhai, is course ka Link Admin Panel se add nahi kiya gaya hai."); 
+      } 
+      return; 
+  }
+  if(!isFeatureOn('payments')){ alert("Payments are currently disabled."); return; }
+  document.getElementById('pay-course-title').value = title; document.getElementById('pay-amount').value = price; document.getElementById('pay-upi').innerText = upiId || "Not Set"; document.getElementById('pay-qr').src = qrUrl || `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${upiId||'test@upi'}&am=${price}&cu=INR`; document.getElementById('payment-modal').classList.remove('hidden');
+};
+window.copyUpi = () => { navigator.clipboard.writeText(upiId); alert("UPI ID Copied!"); };
+window.submitPayment = async () => {
+  const utr = document.getElementById('pay-utr').value; if(utr.length < 8) return alert("Valid 12-Digit UTR dalein"); const btn = document.getElementById('pay-btn'); btn.textContent = 'Verifying...'; btn.disabled = true;
+  try { await addDoc(collection(db, "payments"), { userId: auth.currentUser.uid, name: currentUserName, mobile: currentUserMobile, courseTitle: document.getElementById('pay-course-title').value, amount: document.getElementById('pay-amount').value, utr: utr, status: 'pending', date: new Date() }); alert("✅ Payment submitted!"); document.getElementById('payment-modal').classList.add('hidden'); document.getElementById('pay-utr').value = ''; } catch(e){ alert("Error: " + e.message); } finally { btn.textContent = 'Verify Payment'; btn.disabled = false; }
+};
+window.submitDoubt = async () => {
+  const text = document.getElementById('doubt-text').value.trim(); if(!text) return alert("Please write your doubt!"); const btn = document.getElementById('btn-send-doubt'); btn.textContent = 'Sending...'; btn.disabled = true;
+  try { await addDoc(collection(db, "doubts"), { name: currentUserName, class: currentUserClass, mobile: currentUserMobile, doubt: text, createdAt: new Date(), status: 'pending' }); alert("✅ Sent!"); document.getElementById('doubt-text').value = ''; document.getElementById('doubt-modal').classList.add('hidden'); } catch(e){ alert("Error: " + e.message); } finally { btn.textContent = 'Send Message'; btn.disabled = false; }
+};
+window.openTestSubjectPage = (type) => { currentTestType = type; if(!isFeatureOn('tests')){ showBlockScreen(getBlockConfig('tests'), false); return; } switchPage('page-subjects'); loadSubjects(); };
+async function loadSubjects(){
+  const c = document.getElementById('subjects-container'); c.innerHTML = '<div class="empty-state"><h3>Loading...</h3></div>';
+  try {
+    const q = query(collection(db, "subjects"), where("class", "==", currentUserClass)), snap = await getDocs(q);
+    if(snap.empty){ c.innerHTML = `<div class="empty-state"><h3>कोई Subject नहीं</h3></div>`; return; }
+    const subjects = []; snap.forEach(d => { const s = d.data(); if(s.isPublished === false) return; subjects.push({id: d.id, ...s}); }); subjects.sort((a,b) => (a.order||0)-(b.order||0));
+    if(subjects.length === 0){ c.innerHTML = `<div class="empty-state"><h3>कोई Subject नहीं</h3></div>`; return; }
+    let html = ''; subjects.forEach(s => { const letter = (s.name||'S').charAt(0).toUpperCase(), iconContent = s.icon ? `<img src="${s.icon}" onerror="this.parentNode.innerText='${letter}'">` : letter; html += `<div class="subject-card" onclick="loadTestsForSubject('${escapeHtml(s.name).replace(/'/g,"\\'")}')"><div class="subject-left"><div class="subj-icon" style="background:${s.color||'#D1FAE5'};color:${s.textColor||'#047857'}">${iconContent}</div><div class="subj-name">${escapeHtml(s.name)}</div></div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>`; });
+    c.innerHTML = html;
+  } catch(e){ c.innerHTML = `<div class="empty-state"><h3>Error</h3></div>`; }
+}
+window.loadTestsForSubject = async (subjectName) => {
+  switchPage('page-tests-list'); document.getElementById('test-subject-title').innerText = subjectName + ' Tests'; const c = document.getElementById('tests-container'); c.innerHTML = '<div class="empty-state"><h3>Loading...</h3></div>';
+  try {
+    const q = query(collection(db, "tests"), where("subject", "==", subjectName), where("class", "==", currentUserClass)), snap = await getDocs(q);
+    let filtered = []; snap.forEach(d => { const t = d.data(); if(t.isPublished === false) return; if(currentTestType === 'free' && t.type === 'free' && isFeatureOn('free_tests')) filtered.push({id: d.id, ...t}); if(currentTestType === 'book' && t.isBookTest === true && isFeatureOn('book_tests')) filtered.push({id: d.id, ...t}); });
+    if(filtered.length === 0){ c.innerHTML = `<div class="empty-state"><h3>कोई Test नहीं</h3></div>`; return; }
+    let html = ''; filtered.forEach(t => { const qCount = t.questions ? t.questions.length : 0; html += `<div class="premium-card"><div class="card-info" style="margin-bottom:8px;"><div class="card-title">${escapeHtml(t.title||'Test')}</div><div style="display:flex;gap:14px;color:var(--mut);font-size:12px;margin-top:8px;font-weight:600;"><span>⏱️ ${t.duration||30} mins</span><span>📝 ${qCount} Qs</span></div></div><div class="card-bottom" style="border-top:1px solid #f1f5f9;padding-top:12px;"><button class="btn-buy-now" style="width:100%;padding:12px;font-size:14px;background:var(--grn-g);" onclick="showTestInstructions('${t.id}')">Start Test</button></div></div>`; }); c.innerHTML = html;
+  } catch(e){ c.innerHTML = `<div class="empty-state"><h3>Error</h3></div>`; }
+};
+window.showTestInstructions = async (testId) => {
+  try {
+    const snap = await getDoc(doc(db, "tests", testId)); if(!snap.exists()) return alert("Test नहीं मिला"); const t = snap.data();
+    const modal = document.createElement('div'); modal.className = 'modal-overlay'; modal.onclick = e => { if(e.target === modal) modal.remove(); };
+    modal.innerHTML = `<div class="modal-card" style="text-align:left;"><h3 style="text-align:center;">${escapeHtml(t.title||'Test')}</h3><div style="background:var(--pri-l);padding:14px;border-radius:12px;margin:16px 0;font-size:14px;line-height:2;color:var(--pri);font-weight:600;"><div>⏱️ <b>Duration:</b> ${t.duration||30} minutes</div><div>📝 <b>Questions:</b> ${t.questions.length}</div></div><div style="display:flex;gap:10px;"><button class="btn-main" style="background:#F1F5F9;color:var(--txt);box-shadow:none;margin-top:0;" onclick="this.closest('.modal-overlay').remove()">Cancel</button><button class="btn-main" style="margin-top:0;" onclick="this.closest('.modal-overlay').remove();checkRollAndStart('${testId}')">Start Test</button></div></div>`;
+    document.body.appendChild(modal);
+  } catch(e){ alert("Error: " + e.message); }
+};
+window.checkRollAndStart = (testId) => { if(askRollNo){ document.getElementById('roll-number').value = ""; document.getElementById('roll-modal').classList.remove('hidden'); document.getElementById('roll-modal').dataset.testId = testId; } else { testRollNo = "N/A"; startTest(testId); } };
+window.startTestWithRoll = () => { const roll = document.getElementById('roll-number').value.trim(); if(!roll) return alert("Roll Number dalein!"); testRollNo = roll; const testId = document.getElementById('roll-modal').dataset.testId; document.getElementById('roll-modal').classList.add('hidden'); startTest(testId); };
+window.startTest = async (testId) => {
+  try {
+    const snap = await getDoc(doc(db, "tests", testId)); if(!snap.exists()) return alert("Test नहीं मिला"); currentTest = {id: testId, ...snap.data()}; if(!currentTest.questions || currentTest.questions.length === 0) return alert("Questions नहीं है");
+    currentQuestionIndex = 0; userAnswers = {}; timeLeft = (currentTest.duration||30) * 60; document.getElementById('test-header-title').innerText = currentTest.title || 'Test'; document.getElementById('test-screen').style.display = 'flex'; document.getElementById('test-footer').style.display = 'flex'; renderQuestion(); updateTimer();
+    clearInterval(timerInterval); timerInterval = setInterval(() => { timeLeft--; updateTimer(); if(timeLeft <= 0){ clearInterval(timerInterval); autoSubmit(); } }, 1000);
+  } catch(e){ alert("Error: " + e.message); }
+};
+function updateTimer(){ const m = Math.floor(timeLeft/60), s = timeLeft%60; document.getElementById('test-timer').textContent = `⏱ ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; }
+function renderQuestion(){
+  const q = currentTest.questions[currentQuestionIndex], body = document.getElementById('test-body');
+  let html = `<div class="question-text">${escapeHtml(q.text||q.question||'')}</div>`;
+  q.options.forEach((opt,i) => { const sel = userAnswers[currentQuestionIndex] === i, optText = typeof opt === 'string' ? opt : (opt.text||''); html += `<div class="option-item ${sel?'selected':''}" onclick="selectAnswer(${i})"><div class="option-letter">${String.fromCharCode(65+i)}</div><div class="option-text">${escapeHtml(optText)}</div></div>`; });
+  body.innerHTML = html; body.scrollTop = 0; document.getElementById('btn-prev').disabled = currentQuestionIndex === 0;
+  const isLast = currentQuestionIndex === currentTest.questions.length - 1; document.getElementById('btn-next').classList.toggle('hidden', isLast); document.getElementById('btn-submit-test').classList.toggle('hidden', !isLast);
+}
+window.selectAnswer = i => { userAnswers[currentQuestionIndex] = i; renderQuestion(); };
+window.prevQuestion = () => { if(currentQuestionIndex > 0){ currentQuestionIndex--; renderQuestion(); } };
+window.nextQuestion = () => { if(currentQuestionIndex < currentTest.questions.length - 1){ currentQuestionIndex++; renderQuestion(); } };
+window.jumpToQuestion = i => { currentQuestionIndex = i; renderQuestion(); closePalette(); };
+window.showPalette = () => { const p = document.getElementById('palette-modal'), g = document.getElementById('palette-grid'); g.innerHTML = currentTest.questions.map((_,i) => { const ans = userAnswers[i] !== undefined, cur = i === currentQuestionIndex; return `<button class="palette-btn ${ans?'answered':''} ${cur?'current':''}" onclick="jumpToQuestion(${i})" style="margin:2px;padding:8px;border:1px solid #ccc;border-radius:5px;background:${ans?'#D1FAE5':'#fff'};">${i+1}</button>`; }).join(''); p.classList.remove('hidden'); };
+window.closePalette = () => document.getElementById('palette-modal').classList.add('hidden');
+window.confirmSubmit = () => { const answered = Object.keys(userAnswers).length, total = currentTest.questions.length; if(confirm(`Total: ${total}\nAnswered: ${answered}\n\nSubmit?`)) submitTest(false); };
+function autoSubmit(){ alert("⏰ Time up!"); submitTest(true); }
+async function submitTest(isAuto){
+  clearInterval(timerInterval); let correct = 0, wrong = 0, attempted = 0;
+  currentTest.questions.forEach((q,i) => { if(userAnswers[i] !== undefined){ attempted++; if(userAnswers[i] === q.correct) correct++; else wrong++; } });
+  const total = currentTest.questions.length, percentage = ((correct/total)*100).toFixed(1);
+  try { await addDoc(collection(db,"results"), { userId: auth.currentUser.uid, userName: currentUserName, rollNo: testRollNo, testTitle: currentTest.title||'', subject: currentTest.subject||'', class: currentTest.class||currentUserClass, totalQuestions: total, correct, percentage: parseFloat(percentage), timestamp: new Date() }); } catch(e){ console.log(e); }
+  const body = document.getElementById('test-body'), color = percentage >= 60 ? '#059669' : percentage >= 40 ? '#1E3A8A' : '#DC2626';
+  body.innerHTML = `<div style="text-align:center;padding:20px;"><h1 style="font-size:50px;color:${color};margin-bottom:10px;">${percentage}%</h1><h3 style="margin-bottom:20px;">Score: ${correct}/${total}</h3><button class="btn-main" onclick="closeTestScreen()">Back to Tests</button></div>`;
+  document.getElementById('test-footer').style.display = 'none'; loadTestHistory(); loadLeaderboard();
+}
+window.closeTestScreen = () => { clearInterval(timerInterval); document.getElementById('test-screen').style.display = 'none'; currentTest = null; document.getElementById('test-body').innerHTML = ''; };
+async function loadTestHistory(){
+  const c = document.getElementById('history-container'); if(!c) return; c.innerHTML = '<div class="empty-state"><h3>Loading...</h3></div>';
+  try {
+    const q = query(collection(db, "results"), where("userId", "==", auth.currentUser.uid)), snap = await getDocs(q), docs = snap.docs.map(d => d.data()); docs.sort((a,b) => (b.timestamp?.toMillis?.() || 0) - (a.timestamp?.toMillis?.() || 0)); const top10 = docs.slice(0, 10);
+    if(top10.length === 0){ c.innerHTML = '<div class="empty-state"><h3>कोई test नहीं दिया</h3></div>'; document.getElementById('stat-total-tests').innerText = "0"; document.getElementById('stat-avg-score').innerText = "0%"; return; }
+    let html = '', totalPercent = 0; top10.forEach(r => { totalPercent += r.percentage; const color = r.percentage >= 60 ? '#059669' : r.percentage >= 40 ? '#1E3A8A' : '#DC2626'; html += `<div class="premium-card" style="padding:14px;"><div style="display:flex;justify-content:space-between;align-items:center;"><div style="flex:1;min-width:0;"><div style="font-family:var(--fh);font-weight:800;font-size:14px;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(r.testTitle||'Test')}</div><div style="font-size:12px;color:var(--mut);">${escapeHtml(r.subject||'')} • ${r.correct}/${r.totalQuestions} correct</div></div><div style="font-family:var(--fh);font-weight:900;font-size:20px;color:${color};">${r.percentage}%</div></div></div>`; });
+    c.innerHTML = html; document.getElementById('stat-total-tests').innerText = docs.length; document.getElementById('stat-avg-score').innerText = Math.round(totalPercent/top10.length) + "%";
+  } catch(e){ c.innerHTML = '<div class="empty-state"><h3>Error</h3></div>'; }
+}
+async function loadLeaderboard(){
+  if(!isFeatureOn('leaderboard')){ const lb = document.getElementById('home-leaderboard'); if(lb) lb.innerHTML = ''; const ls = document.getElementById('leaderboard-section'); if(ls) ls.style.display = 'none'; return; }
+  const ls = document.getElementById('leaderboard-section'); if(ls) ls.style.display = ''; const c = document.getElementById('home-leaderboard'); if(!c) return;
+  try {
+    const q = query(collection(db, "results"), where("class", "==", currentUserClass)), snap = await getDocs(q), docs = snap.docs.map(d => d.data()); docs.sort((a,b) => (b.percentage||0) - (a.percentage||0)); const top5 = docs.slice(0, 5);
+    if(top5.length === 0){ c.innerHTML = '<div class="empty-state" style="padding:20px;"><h3>कोई टॉपर नहीं है</h3></div>'; return; }
+    let html = ''; top5.forEach((r, idx) => { const rank = idx + 1, badgeClass = rank === 1 ? 'top-1' : rank === 2 ? 'top-2' : rank === 3 ? 'top-3' : ''; html += `<div class="leaderboard-card"><div class="rank-badge ${badgeClass}">#${rank}</div><div class="leader-info"><div class="leader-name">${escapeHtml(r.userName||'Student')}</div><div class="leader-score">${escapeHtml(r.testTitle||'Test')}</div></div><div class="leader-percent">${r.percentage}%</div></div>`; }); c.innerHTML = html;
+  } catch(e){ c.innerHTML = '<div class="empty-state" style="padding:20px;"><h3>Leaderboard Error</h3></div>'; }
+}
+async function loadNotes(){
+  const c = document.getElementById('notes-container'); if(!c) return; c.innerHTML = '<div class="empty-state"><h3>Loading...</h3></div>';
+  try {
+    const q = query(collection(db, "notes"), where("class", "==", currentUserClass)), snap = await getDocs(q);
+    if(snap.empty){ c.innerHTML = '<div class="empty-state"><h3>कोई Notes नहीं</h3></div>'; return; }
+    let html = ''; snap.forEach(d => { const n = d.data(); if(n.isPublished === false) return; html += `<div class="premium-card" style="flex-direction:row;align-items:center;justify-content:space-between;padding:12px 16px;"><div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;background:#FEE2E2;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#DC2626;font-weight:bold;font-size:18px;">PDF</div><div><div style="font-family:var(--fh);font-weight:800;font-size:14px;">${escapeHtml(n.title||'Notes')}</div><div style="font-size:12px;color:var(--mut);">${escapeHtml(n.subject||'')}</div></div></div><a href="${n.pdfUrl||'#'}" target="_blank" style="background:var(--pri-l);color:var(--pri);padding:8px 12px;border-radius:8px;font-size:12px;font-weight:800;text-decoration:none;">Download</a></div>`; }); c.innerHTML = html || '<div class="empty-state"><h3>कोई Notes नहीं</h3></div>';
+  } catch(e){ c.innerHTML = '<div class="empty-state"><h3>Error</h3></div>'; }
+}
+async function loadTimetable(){
+  const c = document.getElementById('timetable-container'); if(!c) return; c.innerHTML = '<div class="empty-state"><h3>Loading...</h3></div>';
+  try {
+    const q = query(collection(db, "timetable"), where("class", "==", currentUserClass)), snap = await getDocs(q);
+    if(snap.empty){ c.innerHTML = '<div class="empty-state"><h3>कोई Timetable नहीं</h3></div>'; return; }
+    let html = ''; snap.forEach(d => { const t = d.data(); if(t.isPublished === false) return; html += `<div class="premium-card"><div style="font-family:var(--fh);font-weight:800;font-size:15px;border-bottom:1px solid #e2e8f0;padding-bottom:8px;margin-bottom:8px;">${escapeHtml(t.day||'Day')}</div><div style="font-size:14px;font-weight:600;color:var(--pri);display:flex;justify-content:space-between;"><span>${escapeHtml(t.subject||'Subject')}</span><span>${escapeHtml(t.time||'')}</span></div></div>`; }); c.innerHTML = html || '<div class="empty-state"><h3>कोई Timetable नहीं</h3></div>';
+  } catch(e){ c.innerHTML = '<div class="empty-state"><h3>Error</h3></div>'; }
+}
+async function loadNCERT(){
+  const c = document.getElementById('ncert-container'); if(!c) return; c.innerHTML = '<div class="empty-state"><h3>Loading...</h3></div>';
+  try {
+    const q = query(collection(db, "ncert_books"), where("class", "==", currentUserClass)), snap = await getDocs(q);
+    if(snap.empty){ c.innerHTML = '<div class="empty-state"><h3>कोई Books नहीं</h3></div>'; return; }
+    let html = ''; snap.forEach(d => { const n = d.data(); if(n.isPublished === false) return; html += `<div class="premium-card" style="flex-direction:row;align-items:center;justify-content:space-between;padding:12px 16px;"><div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;background:#E0F2FE;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#0284C7;font-weight:bold;font-size:18px;">📚</div><div><div style="font-family:var(--fh);font-weight:800;font-size:14px;">${escapeHtml(n.title||'Book')}</div><div style="font-size:12px;color:var(--mut);">${escapeHtml(n.subject||'')}</div></div></div><a href="${n.pdfUrl||'#'}" target="_blank" style="background:var(--pri-l);color:var(--pri);padding:8px 12px;border-radius:8px;font-size:12px;font-weight:800;text-decoration:none;">Open</a></div>`; }); c.innerHTML = html || '<div class="empty-state"><h3>कोई Books नहीं</h3></div>';
+  } catch(e){ c.innerHTML = '<div class="empty-state"><h3>Error</h3></div>'; }
+}
+async function loadPapers(){
+  const c = document.getElementById('papers-container'); if(!c) return; c.innerHTML = '<div class="empty-state"><h3>Loading...</h3></div>';
+  try {
+    const q = query(collection(db, "papers"), where("class", "==", currentUserClass)), snap = await getDocs(q);
+    if(snap.empty){ c.innerHTML = '<div class="empty-state"><h3>कोई Papers नहीं</h3></div>'; return; }
+    let html = ''; snap.forEach(d => { const p = d.data(); if(p.isPublished === false) return; html += `<div class="premium-card" style="flex-direction:row;align-items:center;justify-content:space-between;padding:12px 16px;"><div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;background:#FEF2F2;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#DC2626;font-weight:bold;font-size:18px;">📄</div><div><div style="font-family:var(--fh);font-weight:800;font-size:14px;">${escapeHtml(p.title||'Paper')}</div><div style="font-size:12px;color:var(--mut);">${escapeHtml(p.desc||'')}</div></div></div><a href="${p.pdfUrl||'#'}" target="_blank" style="background:var(--pri-l);color:var(--pri);padding:8px 12px;border-radius:8px;font-size:12px;font-weight:800;text-decoration:none;">View</a></div>`; }); c.innerHTML = html || '<div class="empty-state"><h3>कोई Papers नहीं</h3></div>';
+  } catch(e){ c.innerHTML = '<div class="empty-state"><h3>Error</h3></div>'; }
+}
+</script>
+</body>
+</html>
